@@ -1,8 +1,9 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.ext.declarative import as_declarative, declared_attr, declarative_base
 from app.settings.config import configuration
-from typing import Any
+from typing import Any, Annotated
+from fastapi import Depends
 
 SQLITE = "sqlite:///./solomon-dev.db"
 
@@ -36,3 +37,7 @@ def get_db():
 #     @declared_attr
 #     def __tablename__(cls) -> str:
 #         return cls.__tablename__.lower()
+
+
+
+db_dependency = Annotated[Session, Depends(get_db)]

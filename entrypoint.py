@@ -4,7 +4,8 @@ import uvicorn
 from app.models.user_model import Base
 from app.database.postgres.pg_core import SessionLocal, engine
 from app.settings.auth import router as auth_router
-from app.settings.auth import db_dependency, get_current_user, user_dependency
+from app.database.postgres.pg_core import db_dependency
+from app.settings.security import user_dependency
 
 app = FastAPI(
     title="Solomon Backend",
