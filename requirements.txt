@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+SQLAlchemy
+alembic
+python-dotenv
+passlib[bcrypt]
+PyJWT
+requests
+pydantic
