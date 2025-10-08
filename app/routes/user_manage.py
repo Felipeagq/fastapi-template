@@ -58,11 +58,15 @@ def create_user(user_data: UserCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Username already registered")
     # Hashear contraseña
     hashed_password = get_password_hash(user_data.password)
+    print(hashed_password)
     # Crear instancia de usuario
-    new_user = User(username=user_data.username, hashed_password=hashed_password)
+    user = user_data.model_dump()
+    user['password'] = hashed_password
+    user.pop("roles")
+    new_user = User(**user)
     # Asignar roles si existen
     if user_data.roles:
-        roles_in_db = db.query(Role).filter(Role.name.in_(user_data.roles)).all()
+        roles_in_db = db.query(Role).filter(Role.id.in_(user_data.roles)).all()
         if len(roles_in_db) != len(user_data.roles):
             raise HTTPException(status_code=400, detail="One or more roles do not exist")
         new_user.roles = roles_in_db
